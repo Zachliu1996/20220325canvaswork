@@ -8,23 +8,33 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="canvas"></div>
-      <script>
-        canvas.onmousemove = (e) => {
-          console.log(e.clientX);
-          console.log(e.clientY);
-          let div = document.createElement("div");
-          div.style.position = "absolute";
-          div.style.left=e.clientX + 'px'
-          div.style.top=e.clientY + 'px'
-          div.style.width = '6px'
-          div.style.height = '6px'
-          div.style.borderRadius='50%'
-          div.style.backgroundColor = 'red'
-          canvas.appendChild(div)
+    <canvas id="canvas"></canvas>
+    <script>
+      var canvas = document.getElementById("canvas");
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
+      let ctx = canvas.getContext("2d");
 
-        };
-      </script>
-    
+      let painting = false;
+      ctx.strokeStyle = "red";
+      canvas.onmousedown = () => {
+        painting = true;
+      };
+      canvas.onmouseup = () => {
+        painting = false;
+      };
+      canvas.onmousemove = (e) => {
+        if (painting === true) {
+          ctx.fillStyle = 'red';
+
+          ctx.beginPath();
+          ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.fill();
+        } else {
+          console.log("什么都不做");
+        }
+      };
+    </script>
   </body>
 </html>
